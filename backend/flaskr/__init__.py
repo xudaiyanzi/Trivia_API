@@ -8,6 +8,20 @@ from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
 
+# start paginate the questions, which make the display more appealing
+def paginate_books(request, selection):
+
+  # if no 'page' is provided, return the first page
+  # if 'page' is provided, return the requested page
+  page = request.args.get('page', 1, type=int) 
+  start = (page - 1) * QUESTIONS_PER_PAGE
+  end = start + QUESTIONS_PER_PAGE
+
+  # try to format the questions
+  questions = [question.format() for question in selection[start:end]]
+  current_questions = questions[start:end]
+
+
 def create_app(test_config=None):
   # create and configure the app
   app = Flask(__name__)
@@ -16,17 +30,39 @@ def create_app(test_config=None):
   '''
   @TODO: Set up CORS. Allow '*' for origins. Delete the sample route after completing the TODOs
   '''
+  ### Done!!!
+  CORS(app)
 
   '''
   @TODO: Use the after_request decorator to set Access-Control-Allow
   '''
+  ## Done!!! set the CORS headers
+  @app.after_request
+  def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization') 
+    response.headers.add('Access-Control-Allow-Method', 'GET,PUT,POST,DELETE,PATCH')
+
+    return response
 
   '''
   @TODO: 
   Create an endpoint to handle GET requests 
   for all available categories.
   '''
-
+  @app.route('/categories', methods=['GET'])
+  def retrieve_categories():
+    
+    selection = Category.query.order_by(Category.id).all()
+    categories = []
+    for item in selection:
+      categories.append(item.format())
+    
+    return jsonify({
+      'success': True,
+      'categories': categories,
+      'total_categories': len(categories)
+      })
 
   '''
   @TODO: 
