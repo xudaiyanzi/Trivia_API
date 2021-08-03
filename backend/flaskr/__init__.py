@@ -82,6 +82,8 @@ def create_app(test_config=None):
   ten questions per page and pagination at the bottom of the screen for three pages.
   Clicking on the page numbers should update the questions. 
   '''
+  ### Done!!!
+
   @app.route('/questions', methods=['GET'])
   def retrieve_questions():
     selection = Question.query.order_by(Question.id).all()
@@ -116,6 +118,20 @@ def create_app(test_config=None):
   TEST: When you click the trash icon next to a question, the question will be removed.
   This removal will persist in the database and when you refresh the page. 
   '''
+  ### Done!!!
+  @app.route('/questions/<int:question_id>', methods=['DELETE'])
+  def delete_question(question_id):
+    question = Question.query.filter_by(id=question_id).first()
+
+    if question is None:
+      abort(404)
+
+    question.delete()
+    return jsonify({
+      'success': True,
+      'deleted_question': question.format()
+    })
+
 
   '''
   @TODO: 
@@ -127,6 +143,24 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
   '''
+  @app.route('/questions', methods=['POST'])
+  def add_question():
+    body = request.get_json()
+
+    new_question = body.get('question', None)
+    new_answer = body.get('answer', None)
+    new_category = body.get('category', None)
+    new_difficulty = body.get('difficulty', None)
+
+    question = Question(question=new_question, answer=new_answer, category=new_category, difficulty=new_difficulty)
+    question.insert()
+
+    return jsonify({
+      'success': True,
+      'new_question': question.format(),
+      'total_questions': len(Question.query.all())
+    })
+
 
   '''
   @TODO: 
