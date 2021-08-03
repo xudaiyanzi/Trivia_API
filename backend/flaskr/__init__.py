@@ -9,7 +9,7 @@ from models import setup_db, Question, Category
 QUESTIONS_PER_PAGE = 10
 
 # start paginate the questions, which make the display more appealing
-def paginate_books(request, selection):
+def paginate_questions(request, selection):
 
   # if no 'page' is provided, return the first page
   # if 'page' is provided, return the requested page
@@ -18,8 +18,10 @@ def paginate_books(request, selection):
   end = start + QUESTIONS_PER_PAGE
 
   # try to format the questions
-  questions = [question.format() for question in selection[start:end]]
+  questions = [question.format() for question in selection]
   current_questions = questions[start:end]
+
+  return current_questions
 
 
 def create_app(test_config=None):
@@ -50,6 +52,7 @@ def create_app(test_config=None):
   Create an endpoint to handle GET requests 
   for all available categories.
   '''
+  ### Done!!!
   @app.route('/categories', methods=['GET'])
   def retrieve_categories():
     
@@ -57,6 +60,9 @@ def create_app(test_config=None):
     categories = []
     for item in selection:
       categories.append(item.format())
+
+    if len(categories) == 0:
+      abort(404)
     
     return jsonify({
       'success': True,
@@ -70,12 +76,38 @@ def create_app(test_config=None):
   including pagination (every 10 questions). 
   This endpoint should return a list of questions, 
   number of total questions, current category, categories. 
-
+  
   TEST: At this point, when you start the application
   you should see questions and categories generated,
   ten questions per page and pagination at the bottom of the screen for three pages.
   Clicking on the page numbers should update the questions. 
   '''
+  @app.route('/questions', methods=['GET'])
+  def retrieve_questions():
+    selection = Question.query.order_by(Question.id).all()
+    categories = Category.query.order_by(Category.id).all()
+
+    current_questions = paginate_questions(request, selection)
+    
+    # get the unique category ids
+    current_categories_id = set()
+    for item in current_questions:
+      current_categories_id.add(item['category']) 
+
+    current_categories = []
+    for item in current_categories_id:
+      current_categories.append(Category.query.filter_by(id=item).first().format())
+
+    if len(current_questions) == 0:
+      abort(404)
+
+    return jsonify({
+      'success': True,
+      'current_questions': current_questions,
+      'total_questions': len(selection),
+      'current_categories': current_categories,
+      'total_categories': len(categories)
+    })
 
   '''
   @TODO: 
@@ -115,6 +147,19 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that 
   category to be shown. 
   '''
+  @app.route('/categories/<int:categories_id>/questions', methods=['GET'])
+  def retrieve_questions_by_category (categories_id):
+    selection = Question.query.filter_by(category=categories_id).order_by(Question.id).all()
+    current_questions = paginate_questions(request, selection)
+
+    if len(current_questions) == 0:
+      abort(404)
+
+    return jsonify({
+      'success': True,
+      'current_questions': current_questions,
+      'total_questions': len(selection)
+    })
 
 
   '''
