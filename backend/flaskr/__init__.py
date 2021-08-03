@@ -105,9 +105,10 @@ def create_app(test_config=None):
 
     return jsonify({
       'success': True,
-      'current_questions': current_questions,
+      'questions': current_questions,
       'total_questions': len(selection),
       'current_categories': current_categories,
+      'categories': [category.format() for category in categories],
       'total_categories': len(categories)
     })
 
@@ -172,6 +173,36 @@ def create_app(test_config=None):
   only question that include that string within their question. 
   Try using the word "title" to start. 
   '''
+  ### Done!!!
+  @app.route('/questions/search', methods=['POST'])
+  def search_questions():
+
+    body = request.get_json()
+    
+    ## it is import to use try/except here to avoid the loading error
+    try:
+      search_term = body.get('searchTerm', None)
+
+      if search_term:
+
+        # selection = Question.query.filter(Question.question.ilike('%{}%',format(search_term))).all()
+        # the above line is not working, so I use the following line. I do not know why.
+        selection = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
+        if len(selection) == 0:
+            abort(422)
+        current_questions = paginate_questions(request, selection)
+
+        return jsonify({
+            'success': True,
+            'current_questions': current_questions,
+            'total_questions': len(selection)
+        })
+
+      else:
+        abort(422)
+
+    except:
+      abort(422)
 
   '''
   @TODO: 
@@ -181,6 +212,7 @@ def create_app(test_config=None):
   categories in the left column will cause only questions of that 
   category to be shown. 
   '''
+  # Done!!!
   @app.route('/categories/<int:categories_id>/questions', methods=['GET'])
   def retrieve_questions_by_category (categories_id):
     selection = Question.query.filter_by(category=categories_id).order_by(Question.id).all()

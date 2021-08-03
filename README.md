@@ -1,5 +1,71 @@
 # Full Stack API Final Project
+API 
+-search 
+    curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
 
+response:
+    {
+    "current_questions": [
+        {
+        "answer": "Muhammad Ali", 
+        "category": 4, 
+        "difficulty": 1, 
+        "id": 9, 
+        "question": "What boxer's original name is Cassius Clay?"
+        }, 
+        {
+        "answer": "Apollo 13", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 2, 
+        "question": "What movie earned Tom Hanks his third straight Oscar nomination, in 1996?"
+        }, 
+        {
+        "answer": "Tom Cruise", 
+        "category": 5, 
+        "difficulty": 4, 
+        "id": 4, 
+        "question": "What actor did author Anne Rice first denounce, then praise in the role of her beloved Lestat?"
+        }, 
+        {
+        "answer": "Edward Scissorhands", 
+        "category": 5, 
+        "difficulty": 3, 
+        "id": 6, 
+        "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+        }, 
+        {
+        "answer": "Lake Victoria", 
+        "category": 3, 
+        "difficulty": 2, 
+        "id": 13, 
+        "question": "What is the largest lake in Africa?"
+        }, 
+        {
+        "answer": "Mona Lisa", 
+        "category": 2, 
+        "difficulty": 3, 
+        "id": 17, 
+        "question": "La Giaconda is better known as what?"
+        }, 
+        {
+        "answer": "The Liver", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 20, 
+        "question": "What is the heaviest organ in the human body?"
+        }, 
+        {
+        "answer": "Blood", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 22, 
+        "question": "Hematology is a branch of medicine involving the study of what?"
+        }
+    ], 
+    "success": true, 
+    "total_questions": 8
+    }
 
 ## Full Stack Trivia
 
