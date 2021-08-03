@@ -2,7 +2,7 @@
 API 
 -search 
     curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
-
+```
 response:
     {
     "current_questions": [
@@ -66,7 +66,7 @@ response:
     "success": true, 
     "total_questions": 8
     }
-
+```
 ## Full Stack Trivia
 
 Udacity is invested in creating bonding experiences for its employees and students. A bunch of team members got the idea to hold trivia on a regular basis and created a webpage to manage the trivia app and play the game, but their API experience is limited and still needs to be built out.
