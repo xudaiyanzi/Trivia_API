@@ -1,7 +1,7 @@
 # Full Stack API Final Project
 API 
 -search 
-        curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
+        `curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" `
 ```
 response:
     {
