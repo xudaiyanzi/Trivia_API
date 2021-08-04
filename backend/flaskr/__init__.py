@@ -254,15 +254,13 @@ def create_app(test_config=None):
   '''
   @app.route('/quizzes', methods=['POST'])
   def retrieve_random_question_by_category ():
-
     try:
       body = request.get_json()    
-      categories = body.get('quiz_category', None)
-      categories_id = categories['id']
+      quiz_category = body.get('quiz_category', None)
       previous_questions = body.get('previous_questions', [])
 
-      current_category = Category.query.filter_by(id=categories_id).first()
-
+      categories_id = quiz_category['id']
+      current_category = Category.query.filter_by(id=categories_id).all()
       if current_category is None:
         abort(404)
       
@@ -272,19 +270,20 @@ def create_app(test_config=None):
       
       collected_questions = []
       for item in questions:
-        if item['id'] not in previous_questions:
+        if item.id not in previous_questions:
           collected_questions.append(item.format())
 
       if len(collected_questions) == 0:
         abort(422)
 
-      current_question = random.choice(collected_questions)
-    
-      return jsonify({
-        'success': True,
-        'current_category': current_category.format(),
-        'current_question': current_question
-      })
+      else:
+        current_question = random.choice(collected_questions)
+        previous_questions.append(current_question['id'])
+
+        return jsonify({
+          'success': True,
+          'question': current_question.format()
+        })
     except:
       abort(422)
 
