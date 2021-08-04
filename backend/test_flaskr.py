@@ -108,23 +108,20 @@ class TriviaTestCase(unittest.TestCase):
 
     #     self.assertEqual(res.status_code, 200)
     #     self.assertEqual(data['success'], True)
-#################Done!###############################
 
-
-
-
-### NOT DONE YET ###
     # def test_error_create_question(self):
     #     """Test for create_question"""
-    #     new_question = {}
-
-    #     res = self.client().post('/questions', json=new_question)
+    #     new_question_error = {
+    #         "question": "",
+    #         "answer": "",
+    #         "category": ""
+    #     }
+    #     res = self.client().post('/questions', json=new_question_error)
     #     data = json.loads(res.data)
 
     #     self.assertEqual(res.status_code, 400)
     #     self.assertEqual(data['success'], False)
     #     self.assertEqual(data['message'], 'bad request')
-### NOT DONE YET ###
 
 #################Done!###############################
     # def test_search_question(self):

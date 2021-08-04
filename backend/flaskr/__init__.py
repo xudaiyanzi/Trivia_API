@@ -148,14 +148,14 @@ def create_app(test_config=None):
   def add_question():
     body = request.get_json()
 
-    if body is None:
-      abort(400)
+    ## validate the question using str() and int()
+    new_question = body.get('question')
+    new_answer = body.get('answer')
+    new_category = body.get('category')
+    new_difficulty = body.get('difficulty', None)
 
-    else:
-      new_question = body.get('question', None)
-      new_answer = body.get('answer', None)
-      new_category = body.get('category', None)
-      new_difficulty = body.get('difficulty', None)
+    if new_question == '' or new_answer == '' or new_category == '':
+      abort(400)
 
     question = Question(question=new_question, answer=new_answer, category=new_category, difficulty=new_difficulty)
     question.insert()
