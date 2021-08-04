@@ -226,9 +226,20 @@ def create_app(test_config=None):
   # Done!!!
   @app.route('/categories/<int:categories_id>/questions', methods=['GET'])
   def retrieve_questions_by_category (categories_id):
-    selection = Question.query.filter_by(category = str(categories_id)).order_by(Question.id).all()
-    current_questions = paginate_questions(request, selection)
-    current_categories = Category.query.filter_by(id=categories_id).first().format()
+    
+    ## collect all the categories ids for the later checkup
+    categories = Category.query.all()
+    categories_id_all = []
+    for item in categories:
+      categories_id_all.append(item.id)
+
+    if categories_id not in categories_id_all:
+      abort(422)
+
+    else:
+      selection = Question.query.filter_by(category = str(categories_id)).order_by(Question.id).all()
+      current_questions = paginate_questions(request, selection)
+      current_categories = Category.query.filter_by(id=categories_id).first().format()
 
     if len(current_questions) == 0:
       abort(404)
@@ -292,6 +303,37 @@ def create_app(test_config=None):
   Create error handlers for all expected errors 
   including 404 and 422. 
   '''
+  @app.errorhandler(400)
+  def bad_request(error):
+    return jsonify({
+      'success': False,
+      'message':'bad request',
+      'error': 400
+    }), 400
+
+  @app.errorhandler(404)
+  def not_found(error):
+    return jsonify({
+      'sucess':False,
+      'message':'not found',
+      'error':404
+      }), 404
+
+  @app.errorhandler(422)
+  def unprocessable(error):
+    return jsonify({
+      'success':False,
+      'message':'can not process the resource',
+      'error':422
+    }), 422
+
+  @app.errorhandler(405)
+  def not_allowed(error):
+    return jsonify({
+      'success':False,
+      'message':'method is not allowed',
+      'error':405
+    }), 405
   
   return app
 

@@ -96,11 +96,23 @@ class TriviaTestCase(unittest.TestCase):
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
-        self.assertEqual(data['total_questions'], 3)
+        self.assertEqual(data['totalQuestions'], 3)
+
+    def test_error_get_questions_by_category(self):
+        """Test ERROR for get_questions"""
+        res = self.client().get('/categories/10/questions')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 422)
+        self.assertEqual(data['success'], False)
+
+
+
+
 
     # def test_get_random_question_by_category(self):
     #     """Test for get_random_question_by_category"""
-    #     res = self.client().get('/quiz', json={"previous_quesitons": [16,17], "categories":{'id': 2, 'type': 'Art'}})
+    #     res = self.client().post('/quizzes', json={'previous_quesitons': [16], 'quiz_category':{'id': 2, 'type': 'Art'}})
     #     data = json.loads(res.data)
 
     #     self.assertEqual(res.status_code, 200)
