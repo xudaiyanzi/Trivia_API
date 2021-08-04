@@ -57,17 +57,18 @@ def create_app(test_config=None):
   def retrieve_categories():
     
     selection = Category.query.order_by(Category.id).all()
-    categories = []
-    for item in selection:
-      categories.append(item.format())
 
-    if len(categories) == 0:
+    categories_dict = {}
+    for item in selection:
+      categories_dict[item.id] = item.type
+
+    if len(categories_dict) == 0:
       abort(404)
     
     return jsonify({
       'success': True,
-      'categories': categories,
-      'total_categories': len(categories)
+      'categories': categories_dict,
+      'total_categories': len(categories_dict)
       })
 
   '''
@@ -87,8 +88,6 @@ def create_app(test_config=None):
   @app.route('/questions', methods=['GET'])
   def retrieve_questions():
     selection = Question.query.order_by(Question.id).all()
-    categories = Category.query.order_by(Category.id).all()
-
     current_questions = paginate_questions(request, selection)
     
     # get the unique category ids
@@ -96,9 +95,10 @@ def create_app(test_config=None):
     for item in current_questions:
       current_categories_id.add(item['category']) 
 
-    current_categories = []
+    current_categories_dict = {}
     for item in current_categories_id:
-      current_categories.append(Category.query.filter_by(id=item).first().format())
+      current_category = Category.query.filter_by(id=item).first().format()
+      current_categories_dict[item]= current_category['type']
 
     if len(current_questions) == 0:
       abort(404)
@@ -107,9 +107,7 @@ def create_app(test_config=None):
       'success': True,
       'questions': current_questions,
       'total_questions': len(selection),
-      'current_categories': current_categories,
-      'categories': [category.format() for category in categories],
-      'total_categories': len(categories)
+      'categories': current_categories_dict
     })
 
   '''
@@ -189,14 +187,26 @@ def create_app(test_config=None):
         # selection = Question.query.filter(Question.question.ilike('%{}%',format(search_term))).all()
         # the above line is not working, so I use the following line. I do not know why.
         selection = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
+
         if len(selection) == 0:
             abort(422)
         current_questions = paginate_questions(request, selection)
 
+            # get the unique category ids
+        current_categories_id = set()
+        for item in current_questions:
+            current_categories_id.add(item['category']) 
+
+        current_categories_dict = {}
+        for item in current_categories_id:
+            current_category = Category.query.filter_by(id=item).first().format()
+            current_categories_dict[item]= current_category['type']
+
         return jsonify({
             'success': True,
-            'current_questions': current_questions,
-            'total_questions': len(selection)
+            'questions': current_questions,
+            'total_questions': len(selection),
+            'current_category': current_categories_dict
         })
 
       else:
@@ -225,9 +235,9 @@ def create_app(test_config=None):
 
     return jsonify({
       'success': True,
-      'current_questions': current_questions,
-      'total_questions': len(selection),
-      'current_categories': current_categories,
+      'questions': current_questions,
+      'totalQuestions': len(selection),
+      'currentCategories': current_categories,
     })
 
 
@@ -242,32 +252,33 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
-  @app.route('/quiz', methods=['POST'])
+  @app.route('/quizzes', methods=['POST'])
   def retrieve_random_question_by_category ():
 
     try:
       body = request.get_json()    
-      categories_id = body.get('quizCategory', None)['id']
-      previous_questions = body.get('previousQuestions', [])
+      categories = body.get('quiz_category', None)
+      categories_id = categories['id']
+      previous_questions = body.get('previous_questions', [])
 
       current_category = Category.query.filter_by(id=categories_id).first()
 
       if current_category is None:
         abort(404)
       
-      questions = Question.query.filter_by(category=categories_id).order_by(Question.id).all()
+      questions = Question.query.filter_by(category=str(categories_id)).order_by(Question.id).all()
       if len(questions) == 0:
         abort(422)
       
-      collected_question = []
+      collected_questions = []
       for item in questions:
         if item['id'] not in previous_questions:
-          collected_question.append(item.format())
+          collected_questions.append(item.format())
 
-      if len(collected_question) == 0:
+      if len(collected_questions) == 0:
         abort(422)
 
-      current_question = random.choice(collected_question)
+      current_question = random.choice(collected_questions)
     
       return jsonify({
         'success': True,
