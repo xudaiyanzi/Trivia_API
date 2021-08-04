@@ -89,7 +89,10 @@ def create_app(test_config=None):
   def retrieve_questions():
     selection = Question.query.order_by(Question.id).all()
     current_questions = paginate_questions(request, selection)
-    
+
+    if len(current_questions) == 0:
+      abort(404)
+
     # get the unique category ids
     current_categories_id = set()
     for item in current_questions:
@@ -100,8 +103,6 @@ def create_app(test_config=None):
       current_category = Category.query.filter_by(id=item).first().format()
       current_categories_dict[item]= current_category['type']
 
-    if len(current_questions) == 0:
-      abort(404)
 
     return jsonify({
       'success': True,
@@ -147,10 +148,14 @@ def create_app(test_config=None):
   def add_question():
     body = request.get_json()
 
-    new_question = body.get('question', None)
-    new_answer = body.get('answer', None)
-    new_category = body.get('category', None)
-    new_difficulty = body.get('difficulty', None)
+    if body is None:
+      abort(400)
+
+    else:
+      new_question = body.get('question', None)
+      new_answer = body.get('answer', None)
+      new_category = body.get('category', None)
+      new_difficulty = body.get('difficulty', None)
 
     question = Question(question=new_question, answer=new_answer, category=new_category, difficulty=new_difficulty)
     question.insert()
@@ -248,7 +253,8 @@ def create_app(test_config=None):
       'success': True,
       'questions': current_questions,
       'totalQuestions': len(selection),
-      'currentCategories': current_categories,
+      'currentCategories': current_categories
+      # 'currentCategories': categories.format(),
     })
 
 
@@ -273,9 +279,13 @@ def create_app(test_config=None):
       categories_id = quiz_category['id']
       current_category = Category.query.filter_by(id=categories_id).all()
       if current_category is None:
-        abort(404)
+        abort(422)
+
+      if categories_id == 0:
+        questions = Question.query.order_by(Question.id).all()
+      else:
+        questions = Question.query.filter_by(category=str(categories_id)).order_by(Question.id).all()
       
-      questions = Question.query.filter_by(category=str(categories_id)).order_by(Question.id).all()
       if len(questions) == 0:
         abort(422)
       
@@ -285,7 +295,12 @@ def create_app(test_config=None):
           collected_questions.append(item.format())
 
       if len(collected_questions) == 0:
-        abort(422)
+        # abort(422)
+        return jsonify({
+          'success': True,
+          'message': 'No more questions',
+          'totalQuestions': len(questions)
+        })
 
       else:
         current_question = random.choice(collected_questions)
@@ -293,7 +308,7 @@ def create_app(test_config=None):
 
         return jsonify({
           'success': True,
-          'question': current_question.format()
+          'question': current_question
         })
     except:
       abort(422)

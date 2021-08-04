@@ -18,12 +18,6 @@ class TriviaTestCase(unittest.TestCase):
         self.database_path = "postgres://{}/{}".format('localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
-        self.new_question = {
-            "question": "How many players in a basketball team?",
-            "answer": "5",
-            "category": "6"
-        }
-
         # binds the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -39,6 +33,7 @@ class TriviaTestCase(unittest.TestCase):
     TODO
     Write at least one test for each test for successful operation and for expected errors.
     """
+#################Done!###############################
     # def test_get_categories(self):
     #     """Test for get_categories"""
     #     res = self.client().get('/categories')
@@ -47,7 +42,20 @@ class TriviaTestCase(unittest.TestCase):
     #     self.assertEqual(res.status_code, 200)
     #     self.assertEqual(data['success'], True)
     #     self.assertEqual(data['total_categories'], 6)
+#################Done!###############################
 
+### NOT DONE YET ###
+    # def test_error_get_categories(self):
+    #     """Test for get_categories"""
+    #     res = self.client().get('/categories')
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 404)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], 'not found')
+### NOT DONE YET ### 
+
+#################Done!###############################
     # def test_get_questions(self):
     #     """Test for get_questions"""
     #     res = self.client().get('/questions')
@@ -55,8 +63,18 @@ class TriviaTestCase(unittest.TestCase):
 
     #     self.assertEqual(res.status_code, 200)
     #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['total_questions'], 19)
-    #     self.assertIsNotNone(data['current_categories'])
+    #     self.assertEqual(data['total_questions'], 27)
+    #     self.assertIsNotNone(data['categories'])
+ 
+    # def test_error_get_questions(self):
+    #     """Test for get_questions"""
+    #     res = self.client().get('/questions?page=10')
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 404)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], "not found")
+
 
     # def test_delete_question(self):
     #     """Test for delete_question"""
@@ -67,14 +85,46 @@ class TriviaTestCase(unittest.TestCase):
     #     self.assertEqual(data['success'], True)
     #     self.assertEqual(data['deleted_question']['id'], 4)
 
-    def test_create_question(self):
-        """Test for create_question"""
-        res = self.client().post('/questions', json=self.new_question)
-        data = json.loads(res.data)
+    # def test_error_delete_question(self):
+    #     """Test for delete_question"""
+    #     res = self.client().delete('/questions/300')
+    #     data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['total_questions'],19)
+    #     self.assertEqual(res.status_code, 404)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], "not found")
+
+
+    # def test_create_question(self):
+    #     """Test for create_question"""
+    #     new_question = {
+    #         "question": "How many players in a basketball team?",
+    #         "answer": "5",
+    #         "category": "6"
+    #     }
+    
+    #     res = self.client().post('/questions', json=new_question)
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 200)
+    #     self.assertEqual(data['success'], True)
+#################Done!###############################
+
+
+
+
+### NOT DONE YET ###
+    # def test_error_create_question(self):
+    #     """Test for create_question"""
+    #     new_question = {}
+
+    #     res = self.client().post('/questions', json=new_question)
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 400)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], 'bad request')
+### NOT DONE YET ###
 
 #################Done!###############################
     # def test_search_question(self):
@@ -118,11 +168,6 @@ class TriviaTestCase(unittest.TestCase):
 
     #     self.assertEqual(res.status_code, 422)
     #     self.assertEqual(data['success'], False)
-#################Done!###############################
-
-
-
-
 
     # def test_get_random_question_by_category(self):
     #     """Test for get_random_question_by_category"""
@@ -131,7 +176,17 @@ class TriviaTestCase(unittest.TestCase):
 
     #     self.assertEqual(res.status_code, 200)
     #     self.assertEqual(data['success'], True)
-    #     self.assertIsNotNone(data['current_question'])
+    #     self.assertIsNotNone(data['question'])
+
+    # def test_error_get_random_question_by_category(self):
+    #     """Test for get_random_question_by_category"""
+    #     res = self.client().post('/quizzes', json={'previous_quesitons': [16], 'quiz_category':{'id': 7}})
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 422)
+    #     self.assertEqual(data['success'], False)
+
+#################Done!###############################
 
 # Make the tests conveniently executable
 if __name__ == "__main__":
