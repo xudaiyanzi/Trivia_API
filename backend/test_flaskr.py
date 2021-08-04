@@ -67,15 +67,16 @@ class TriviaTestCase(unittest.TestCase):
     #     self.assertEqual(data['success'], True)
     #     self.assertEqual(data['deleted_question']['id'], 4)
 
-    # def test_create_question(self):
-    #     """Test for create_question"""
-    #     res = self.client().post('/questions', json=self.new_question)
-    #     data = json.loads(res.data)
+    def test_create_question(self):
+        """Test for create_question"""
+        res = self.client().post('/questions', json=self.new_question)
+        data = json.loads(res.data)
 
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(data['total_questions'],19)
+        self.assertEqual(res.status_code, 200)
+        self.assertEqual(data['success'], True)
+        self.assertEqual(data['total_questions'],19)
 
+#################Done!###############################
     # def test_search_question(self):
     #     """Test for search_question"""
     #     new_search = {
@@ -86,25 +87,38 @@ class TriviaTestCase(unittest.TestCase):
 
     #     self.assertEqual(res.status_code, 200)
     #     self.assertEqual(data['success'], True)
-    #     self.assertIsNotNone(data['current_questions'])
+    #     self.assertIsNotNone(data['questions'])
+
+    # def test_error_search_question(self):
+    #     """Test for search_question"""
+    #     new_search = {
+    #         "searchTerm": "XXXXXXXXXX"
+    #         }
+    #     res = self.client().post('/questions/search', json = new_search)
+    #     data = json.loads(res.data)
+
+    #     self.assertEqual(res.status_code, 404)
+    #     self.assertEqual(data['success'], False)
+    #     self.assertEqual(data['message'], 'not found')
 
 
-    def test_get_questions_by_category(self):
-        """Test for get_questions"""
-        res = self.client().get('/categories/1/questions')
-        data = json.loads(res.data)
+    # def test_get_questions_by_category(self):
+    #     """Test for get_questions"""
+    #     res = self.client().get('/categories/1/questions')
+    #     data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)
-        self.assertEqual(data['totalQuestions'], 3)
+    #     self.assertEqual(res.status_code, 200)
+    #     self.assertEqual(data['success'], True)
+    #     self.assertEqual(data['totalQuestions'], 3)
 
-    def test_error_get_questions_by_category(self):
-        """Test ERROR for get_questions"""
-        res = self.client().get('/categories/10/questions')
-        data = json.loads(res.data)
+    # def test_error_get_questions_by_category(self):
+    #     """Test ERROR for get_questions"""
+    #     res = self.client().get('/categories/10/questions')
+    #     data = json.loads(res.data)
 
-        self.assertEqual(res.status_code, 422)
-        self.assertEqual(data['success'], False)
+    #     self.assertEqual(res.status_code, 422)
+    #     self.assertEqual(data['success'], False)
+#################Done!###############################
 
 
 

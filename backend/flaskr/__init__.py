@@ -189,7 +189,7 @@ def create_app(test_config=None):
         selection = Question.query.filter(Question.question.ilike(f'%{search_term}%')).all()
 
         if len(selection) == 0:
-            abort(422)
+            abort(404)
         current_questions = paginate_questions(request, selection)
 
             # get the unique category ids
@@ -210,10 +210,10 @@ def create_app(test_config=None):
         })
 
       else:
-        abort(422)
+        abort(404)
 
     except:
-      abort(422)
+      abort(404)
 
   '''
   @TODO: 
@@ -314,7 +314,7 @@ def create_app(test_config=None):
   @app.errorhandler(404)
   def not_found(error):
     return jsonify({
-      'sucess':False,
+      'success':False,
       'message':'not found',
       'error':404
       }), 404
