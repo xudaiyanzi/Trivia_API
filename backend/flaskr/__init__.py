@@ -144,6 +144,7 @@ def create_app(test_config=None):
   the form will clear and the question will appear at the end of the last page
   of the questions list in the "List" tab.  
   '''
+  ### Done!!!
   @app.route('/questions', methods=['POST'])
   def add_question():
     body = request.get_json()
@@ -215,8 +216,9 @@ def create_app(test_config=None):
   # Done!!!
   @app.route('/categories/<int:categories_id>/questions', methods=['GET'])
   def retrieve_questions_by_category (categories_id):
-    selection = Question.query.filter_by(category=categories_id).order_by(Question.id).all()
+    selection = Question.query.filter_by(category = str(categories_id)).order_by(Question.id).all()
     current_questions = paginate_questions(request, selection)
+    current_categories = Category.query.filter_by(id=categories_id).first().format()
 
     if len(current_questions) == 0:
       abort(404)
@@ -224,7 +226,8 @@ def create_app(test_config=None):
     return jsonify({
       'success': True,
       'current_questions': current_questions,
-      'total_questions': len(selection)
+      'total_questions': len(selection),
+      'current_categories': current_categories,
     })
 
 
@@ -239,6 +242,40 @@ def create_app(test_config=None):
   one question at a time is displayed, the user is allowed to answer
   and shown whether they were correct or not. 
   '''
+  @app.route('/quiz', methods=['POST'])
+  def retrieve_random_question_by_category ():
+
+    try:
+      body = request.get_json()    
+      categories_id = body.get('quizCategory', None)['id']
+      previous_questions = body.get('previousQuestions', [])
+
+      current_category = Category.query.filter_by(id=categories_id).first()
+
+      if current_category is None:
+        abort(404)
+      
+      questions = Question.query.filter_by(category=categories_id).order_by(Question.id).all()
+      if len(questions) == 0:
+        abort(422)
+      
+      collected_question = []
+      for item in questions:
+        if item['id'] not in previous_questions:
+          collected_question.append(item.format())
+
+      if len(collected_question) == 0:
+        abort(422)
+
+      current_question = random.choice(collected_question)
+    
+      return jsonify({
+        'success': True,
+        'current_category': current_category.format(),
+        'current_question': current_question
+      })
+    except:
+      abort(422)
 
   '''
   @TODO: 
