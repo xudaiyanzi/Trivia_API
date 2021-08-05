@@ -337,3 +337,9 @@ response:
     "success": false
     }
 ```
+
+## 3. Authors
+Yan Xu, Udacity Full-stack team
+
+## 4. Acknowledgement
+Yan thanks the mentors in Full-stack team. They are patient and resourceful. In particular, Mr. Nitish K offered a huge help on the /quizzs handler.
