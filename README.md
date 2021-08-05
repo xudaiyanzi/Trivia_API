@@ -156,6 +156,24 @@ For questions in other pages, we can use the command: curl http://127.0.0.1:5000
     curl http://127.0.0.1:5000/questions?page=2
 
 #### (3) Creating a question
+This method will create a new entry of question. A successful create requires all of three: "question", "answer", "category". 
+
+    curl -X POST -H "Content-Type: application/json" -d '{"question": "test question", "answer": "test answer", "category": "1", "difficulty":"1"}' http://127.0.0.1:5000/questions
+
+response:
+
+    {
+    "new_question": {
+        "answer": "test answer", 
+        "category": 1, 
+        "difficulty": 1, 
+        "id": 28, 
+        "question": "test question"
+    }, 
+    "success": true, 
+    "total_questions": 20
+    }
+
 
 #### (4) Deleting a question
 
