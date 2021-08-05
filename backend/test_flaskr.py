@@ -123,7 +123,6 @@ class TriviaTestCase(unittest.TestCase):
     #     self.assertEqual(data['success'], False)
     #     self.assertEqual(data['message'], 'bad request')
 
-#################Done!###############################
     # def test_search_question(self):
     #     """Test for search_question"""
     #     new_search = {

@@ -8,6 +8,9 @@ ehthumbs.db
 Thumbs.db
 #### the section is copied from https://knowledge.udacity.com/questions/524795
 
+### use "$ git rm -r --cached __pycache__" to remove the __pycache__ 
+### use "$ git rm --cached .DS_Store" to remove the .DS_Store 
+
 
 
 
