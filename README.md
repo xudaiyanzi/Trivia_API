@@ -5,7 +5,7 @@ API
         curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
 
 --response
-    ```
+    
     {
     "question": {
         "answer": "One", 
@@ -16,7 +16,7 @@ API
     }, 
     "success": true
     }
-    ```
+    
 
 
 - questions in each category:
@@ -25,7 +25,7 @@ API
 
 response
 
-    ``` 
+     
     {
         "current_questions": [
             {
@@ -53,7 +53,7 @@ response
         "success": true, 
         "total_questions": 3
     }
-    ```
+    
 -search:
 
         curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
@@ -61,7 +61,7 @@ response
 
 -response:
 
-    ```
+    
     {
     "current_questions": [
         {
@@ -124,25 +124,25 @@ response
     "success": true, 
     "total_questions": 8
     }
-    ```
+    
 
 
 - error
 error 422
 response:
 
-    ```
+    
     {
     "error": 422, 
     "message": "can not process the resource", 
     "success": false
     }
-    ```
+    
 
 
 
 
-```
+
 
 ## Full Stack Trivia
 
