@@ -23,8 +23,7 @@ API
 
         curl http://127.0.0.1:5000/categories/1/questions
 
-response
-
+response:
      
     {
         "current_questions": [
@@ -60,7 +59,6 @@ response
 
 
 -response:
-
     
     {
     "current_questions": [
@@ -130,16 +128,14 @@ response
 - error
 error 422
 response:
-
-    
+``` 
     {
     "error": 422, 
     "message": "can not process the resource", 
     "success": false
     }
+```
     
-
-
 
 
 
