@@ -45,18 +45,19 @@ In this project, the API is a REST API. The requests include "GET", "POST", and 
     curl http://127.0.0.1:5000/categories
 
 The response is 
-    {
-  "categories": {
-    "1": "Science", 
-    "2": "Art", 
-    "3": "Geography", 
-    "4": "History", 
-    "5": "Entertainment", 
-    "6": "Sports"
-  }, 
-  "success": true, 
-  "total_categories": 6
-}
+
+        {
+    "categories": {
+        "1": "Science", 
+        "2": "Art", 
+        "3": "Geography", 
+        "4": "History", 
+        "5": "Entertainment", 
+        "6": "Sports"
+    }, 
+    "success": true, 
+    "total_categories": 6
+    }
 
 
 
