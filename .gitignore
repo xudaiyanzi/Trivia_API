@@ -191,7 +191,7 @@ venv.bak/
 # Created by https://www.gitignore.io/api/osx
 
 ### OSX ###
-*.DS_Store
+.DS_Store
 .AppleDouble
 .LSOverride
 
