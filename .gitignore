@@ -1,7 +1,7 @@
 #### the section is copied from https://knowledge.udacity.com/questions/524795
 /frontend/node_modules
 .vscode
-__pycache__
+/backend/flaskr/__pycache__
 venv
 
 ehthumbs.db
