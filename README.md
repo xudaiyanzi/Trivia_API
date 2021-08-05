@@ -238,6 +238,7 @@ Here, we search any words/letters in a question description, and the reponses wi
     }
 
 #### (6) listing all question in a category
+The command will pull all the questions in the chosen category. `curl http://127.0.0.1:5000/categories/${integer}/questions` It will automatically validate the integer number, and check whether it is in the categories id range. I give an example to fetch questions in category 1:
 
         curl http://127.0.0.1:5000/categories/1/questions
 
