@@ -37,59 +37,36 @@ After install the database and tables, we start the backend and frontend server 
 So far, we have done the server part, the following section will be focused on the detailed API reference
 
 ## 2. API reference
-- random question:
 
-        curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
+In this project, the API is a REST API. The requests include "GET", "POST", and "DELETE", and the error codes are 400, 404, 422, and 405. Using the API, we can request all the categories and the questions (in pagination, with the specific category for each question on a particular page), we can search questions in a selected category, create questions, delete questions, and find a random question in any chosen category.
 
---response
-    
+#### (1) Base url - get all the categories
+
+    curl http://127.0.0.1:5000/categories
+
+The response is 
     {
-    "question": {
-        "answer": "One", 
-        "category": 2, 
-        "difficulty": 4, 
-        "id": 18, 
-        "question": "How many paintings did Van Gogh sell in his lifetime?"
-    }, 
-    "success": true
-    }
-    
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "success": true, 
+  "total_categories": 6
+}
 
 
-- questions in each category:
 
-        curl http://127.0.0.1:5000/categories/1/questions
+#### (2) All questions
 
-response:
-     
-    {
-        "current_questions": [
-            {
-            "answer": "The Liver", 
-            "category": 1, 
-            "difficulty": 4, 
-            "id": 20, 
-            "question": "What is the heaviest organ in the human body?"
-            }, 
-            {
-            "answer": "Alexander Fleming", 
-            "category": 1, 
-            "difficulty": 3, 
-            "id": 21, 
-            "question": "Who discovered penicillin?"
-            }, 
-            {
-            "answer": "Blood", 
-            "category": 1, 
-            "difficulty": 4, 
-            "id": 22, 
-            "question": "Hematology is a branch of medicine involving the study of what?"
-            }
-        ], 
-        "success": true, 
-        "total_questions": 3
-    }
-    
+#### (3) Creating a question
+
+#### (4) Deleting a question
+
+#### (5) Searching a question
 -search:
 
         curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
@@ -159,10 +136,62 @@ response:
     "success": true, 
     "total_questions": 8
     }
+
+#### (6) listing all question in a category
+
+        curl http://127.0.0.1:5000/categories/1/questions
+
+response:
+     
+    {
+        "current_questions": [
+            {
+            "answer": "The Liver", 
+            "category": 1, 
+            "difficulty": 4, 
+            "id": 20, 
+            "question": "What is the heaviest organ in the human body?"
+            }, 
+            {
+            "answer": "Alexander Fleming", 
+            "category": 1, 
+            "difficulty": 3, 
+            "id": 21, 
+            "question": "Who discovered penicillin?"
+            }, 
+            {
+            "answer": "Blood", 
+            "category": 1, 
+            "difficulty": 4, 
+            "id": 22, 
+            "question": "Hematology is a branch of medicine involving the study of what?"
+            }
+        ], 
+        "success": true, 
+        "total_questions": 3
+    }
+
+#### (7) Rendering a random question in a category
+- random question:
+
+        curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
+
+--response
+    
+    {
+    "question": {
+        "answer": "One", 
+        "category": 2, 
+        "difficulty": 4, 
+        "id": 18, 
+        "question": "How many paintings did Van Gogh sell in his lifetime?"
+    }, 
+    "success": true
+    }
     
 
+#### (8) error handlers
 
-- error
 error 422
 response:
 ``` 
