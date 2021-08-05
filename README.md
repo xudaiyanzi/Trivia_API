@@ -70,6 +70,14 @@ the reponse:
 
     {
     "categories": {
+        "1": "Science", 
+        "2": "Art", 
+        "3": "Geography", 
+        "4": "History", 
+        "5": "Entertainment", 
+        "6": "Sports"
+    }, 
+    "current_categories": {
         "3": "Geography", 
         "4": "History", 
         "5": "Entertainment", 
