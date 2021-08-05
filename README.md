@@ -1,5 +1,44 @@
-# Full Stack API Final Project
-API
+# Trivia API - a way to learn API 
+
+I used this project to improve my API skill. It seperates the full stack work into backend and frontend. Here, my main focus is on the backend, where I finished the API request and error handlers in the flaskr, and write the test_flaskr.py to test each API, and use curl to request the API response. In the well-built frontend, I update the urls, which allows API response being read successfully.
+
+All the API responses are presented in json files.
+
+## 1. Getting started
+
+Install the backend prerequirement dependencies by using this command:
+
+    pip3 install -r requirements.txt
+
+We need then create database and insert all the data in tables
+
+    (1) for database, , cd to '\backend' directory and excute this command:
+
+        psql 
+        \i setup.sql
+
+        \q  \\to exit the database before insert data to tables
+    
+    (2) for tables, cd to '\backend' directory and excute:
+
+        psql trivia < trivia.psql
+
+After install the database and tables, we start the backend and frontend server to play.
+
+    (1) for backend, cd to '\backend' directory:
+
+        export FLASK_APP=flaskr
+        export FLASK_ENV=development
+        flask run
+    
+    (2) for frontend, cd to '\frontend' directory:
+
+        npm install
+        npm start
+
+So far, we have done the server part, the following section will be focused on the detailed API reference
+
+## 2. API reference
 - random question:
 
         curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
