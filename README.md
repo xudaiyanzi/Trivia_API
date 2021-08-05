@@ -151,16 +151,16 @@ the reponse:
     "total_questions": 19
     }
 
-For questions in other pages, we can use the command: curl http://127.0.0.1:5000/questions?page=AnyPageNumber. For example:
+For questions in other pages, we can use the command: curl http://127.0.0.1:5000/questions?page=${integer}. For example:
 
     curl http://127.0.0.1:5000/questions?page=2
-
 
 #### (3) Creating a question
 
 #### (4) Deleting a question
 
 #### (5) Searching a question
+Here, we search any words/letters in a question description, and the reponses will list all the questions that fit the requirement, along with their corresponding categories.
 
         curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
 
@@ -168,7 +168,14 @@ For questions in other pages, we can use the command: curl http://127.0.0.1:5000
 -response:
     
     {
-    "current_questions": [
+    "current_category": {
+        "1": "Science", 
+        "2": "Art", 
+        "3": "Geography", 
+        "4": "History", 
+        "5": "Entertainment"
+    }, 
+    "questions": [
         {
         "answer": "Muhammad Ali", 
         "category": 4, 
