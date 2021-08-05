@@ -42,11 +42,13 @@ In this project, the API is a REST API. The requests include "GET", "POST", and 
 
 #### (1) Base url - get all the categories
 
+This command is expected to fetch json file, including all the categories in a json file, the status of fetch ("success", true or false), and the total number of categories. The category json is a dictionary with a key named as "id", and a description.
+
     curl http://127.0.0.1:5000/categories
 
 The response is 
 
-        {
+    {
     "categories": {
         "1": "Science", 
         "2": "Art", 
@@ -68,7 +70,6 @@ The response is
 #### (4) Deleting a question
 
 #### (5) Searching a question
--search:
 
         curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
 
@@ -173,7 +174,7 @@ response:
     }
 
 #### (7) Rendering a random question in a category
-- random question:
+
 
         curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
 
