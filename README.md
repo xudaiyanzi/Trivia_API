@@ -176,6 +176,20 @@ response:
 
 
 #### (4) Deleting a question
+We can also delete a question, by using
+
+    curl -X DELETE -H "Content-Type: application/json" http://127.0.0.1:5000/questions/20
+
+Response:
+    {  "deleted_question": {
+        "answer": "The Liver", 
+        "category": 1, 
+        "difficulty": 4, 
+        "id": 20, 
+        "question": "What is the heaviest organ in the human body?"
+    }, 
+    "success": true
+    }
 
 #### (5) Searching a question
 Here, we search any words/letters in a question description, and the reponses will list all the questions that fit the requirement, along with their corresponding categories.
