@@ -1,4 +1,15 @@
+#### the section is copied from https://knowledge.udacity.com/questions/524795
 /frontend/node_modules
+.vscode
+__pycache__
+venv
+
+ehthumbs.db
+Thumbs.db
+#### the section is copied from https://knowledge.udacity.com/questions/524795
+
+
+
 
 
 #### the below is copied from https://github.com/jwkvam/minimal-flask-react/blob/master/.gitignore
