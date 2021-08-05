@@ -87,6 +87,11 @@ def create_app(test_config=None):
 
   @app.route('/questions', methods=['GET'])
   def retrieve_questions():
+    categories = Category.query.order_by(Category.id).all()
+    categories_dict = {}
+    for item in categories:
+      categories_dict[item.id] = item.type
+
     selection = Question.query.order_by(Question.id).all()
     current_questions = paginate_questions(request, selection)
 
@@ -108,7 +113,8 @@ def create_app(test_config=None):
       'success': True,
       'questions': current_questions,
       'total_questions': len(selection),
-      'categories': current_categories_dict
+      'current_categories': current_categories_dict,
+      'categories': categories_dict
     })
 
   '''
