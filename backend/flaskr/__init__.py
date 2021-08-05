@@ -6,22 +6,35 @@ import random
 
 from models import setup_db, Question, Category
 
-QUESTIONS_PER_PAGE = 10
+# QUESTIONS_PER_PAGE = 10
+# # start paginate the questions, which make the display more appealing
+# def paginate_questions(request, selection):
+#     # if no 'page' is provided, return the first page
+#     # if 'page' is provided, return the requested page
+#     page = request.args.get('page', 1, type=int)
+#     start = (page - 1) * QUESTIONS_PER_PAGE
+#     end = start + QUESTIONS_PER_PAGE
 
+#     # try to format the questions
+#     questions = [question.format() for question in selection]
+#     current_questions = questions[start:end]
 
-# start paginate the questions, which make the display more appealing
+#     return current_questions
+
+## another way to do pagination, which is good for big data
 def paginate_questions(request, selection):
-    # if no 'page' is provided, return the first page
-    # if 'page' is provided, return the requested page
-    page = request.args.get('page', 1, type=int)
-    start = (page - 1) * QUESTIONS_PER_PAGE
-    end = start + QUESTIONS_PER_PAGE
+    items_limit = request.args.get('limit', 10, type=int)
+    selected_page = request.args.get('page', 1, type=int)
+    current_index = selected_page - 1
 
-    # try to format the questions
-    questions = [question.format() for question in selection]
-    current_questions = questions[start:end]
+    questions = Question.query.order_by(Question.id)\
+            .limit(items_limit).offset(current_index * items_limit).all()
+
+    current_questions = [question.format() for question in questions]
 
     return current_questions
+
+
 
 
 def create_app(test_config=None):
@@ -202,9 +215,8 @@ def create_app(test_config=None):
 
             if search_term:
                 # selection = Question.query.filter(
-                # Question.question.ilike('%{}%',format(search_term))).all()
-                # the above line is not working,
-                # so I use the following line. I do not know why.
+                # Question.question.ilike('%{}%'.format(search_term))).all()
+                # the above line is also valid
                 selection = Question.query.filter(
                     Question.question.ilike(f'%{search_term}%')).all()
 
