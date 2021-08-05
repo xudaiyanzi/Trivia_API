@@ -2,7 +2,7 @@
 API
 - random question:
 
-    curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
+        curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
 
 --response
 ```
@@ -21,7 +21,7 @@ API
 
 - questions in each category:
 
-    curl http://127.0.0.1:5000/categories/1/questions
+        curl http://127.0.0.1:5000/categories/1/questions
 
 response
 
@@ -60,6 +60,7 @@ response
 
 ```
 response:
+```
     {
     "current_questions": [
         {
@@ -122,19 +123,23 @@ response:
     "success": true, 
     "total_questions": 8
     }
+```
+
 
 - error
 error 422
 response:
 ```
-{
-  "error": 422, 
-  "message": "can not process the resource", 
-  "success": false
-}
+    {
+    "error": 422, 
+    "message": "can not process the resource", 
+    "success": false
+    }
 ```
 
+
 ```
+
 ## Full Stack Trivia
 
 Udacity is invested in creating bonding experiences for its employees and students. A bunch of team members got the idea to hold trivia on a regular basis and created a webpage to manage the trivia app and play the game, but their API experience is limited and still needs to be built out.
