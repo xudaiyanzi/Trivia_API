@@ -1,5 +1,59 @@
 # Full Stack API Final Project
-API 
+API
+- random question:
+
+    curl -d '{"previous_questions":[17], "quiz_category":{"type": "Art", "id": "2"}}' -H 'Content-Type: application/json' -X POST http://127.0.0.1:5000/quizzes
+
+--response
+```
+    {
+    "question": {
+        "answer": "One", 
+        "category": 2, 
+        "difficulty": 4, 
+        "id": 18, 
+        "question": "How many paintings did Van Gogh sell in his lifetime?"
+    }, 
+    "success": true
+    }
+```
+
+
+- questions in each category:
+
+    curl http://127.0.0.1:5000/categories/1/questions
+
+response
+
+``` 
+    {
+        "current_questions": [
+            {
+            "answer": "The Liver", 
+            "category": 1, 
+            "difficulty": 4, 
+            "id": 20, 
+            "question": "What is the heaviest organ in the human body?"
+            }, 
+            {
+            "answer": "Alexander Fleming", 
+            "category": 1, 
+            "difficulty": 3, 
+            "id": 21, 
+            "question": "Who discovered penicillin?"
+            }, 
+            {
+            "answer": "Blood", 
+            "category": 1, 
+            "difficulty": 4, 
+            "id": 22, 
+            "question": "Hematology is a branch of medicine involving the study of what?"
+            }
+        ], 
+        "success": true, 
+        "total_questions": 3
+    }
+```
 -search:
 
         curl -X POST http://127.0.0.1:5000/questions/search -d '{"searchTerm":"what"}' -H "Content-Type: application/json" 
@@ -68,6 +122,18 @@ response:
     "success": true, 
     "total_questions": 8
     }
+
+- error
+error 422
+response:
+```
+{
+  "error": 422, 
+  "message": "can not process the resource", 
+  "success": false
+}
+```
+
 ```
 ## Full Stack Trivia
 
